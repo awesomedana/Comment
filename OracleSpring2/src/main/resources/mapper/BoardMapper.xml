@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.app.oraclespring.DAO.BoardMapper">
+
+	<insert id="insertBoard" parameterType="Board">
+	INSERT INTO BOARDINFO(
+		BOARDSEQ,
+		ID,
+		BOARDTITLE,
+		BOARDCONTENT,
+		HITCOUNT,
+		INDATE 
+	)
+	VALUES(
+		BOARDSEQ.NEXTVAL,
+		#{id},
+		#{boardTitle},
+		#{boardContent},
+		0,
+		SYSDATE
+	)
+	</insert>
+	
+	<select id="boardList" resultType="Board">
+	SELECT 
+		BOARDSEQ,
+		ID,
+		BOARDTITLE,
+		BOARDCONTENT,
+		HITCOUNT,
+		INDATE 
+	FROM 
+		BOARDINFO
+	ORDER BY
+		INDATE 
+			DESC
+	</select>
+
+	<select id="boardDetail" parameterType="String" resultType="Board">
+	SELECT 
+		BOARDSEQ,
+		ID,
+		BOARDTITLE,
+		BOARDCONTENT,
+		HITCOUNT,
+		INDATE 
+	FROM 
+		BOARDINFO
+	WHERE
+	 	BOARDSEQ=#{boardSeq}
+	</select>
+
+	<update id="increaseHit" parameterType="String">
+	UPDATE BOARDINFO
+	SET
+		HITCOUNT=HITCOUNT+1
+	WHERE
+		BOARDSEQ=#{boardSeq}
+	</update>
+
+	<delete id="deleteBoard" parameterType="String">
+	DELETE BOARDINFO
+		WHERE BOARDSEQ=#{boardSeq}
+	</delete>
+	
+	
+	<update id="updateContent" parameterType="Board">
+	UPDATE BOARDINFO
+	SET
+	 BOARDTITLE=#{boardTitle},
+	 BOARDCONTENT=#{boardContent}
+	WHERE
+	 BOARDSEQ=#{boardSeq}
+	</update>
+
+
+	<insert id="insertComment" parameterType="Comment">
+	INSERT INTO	COMMENTS
+	(
+	COMMENTSEQ,
+	BOARDSEQ,
+	ID,
+	COMMENTS,
+	INDATE
+	)
+	VALUES
+	(
+	COMMENTSEQ.NEXTVAL,
+	#{boardSeq},
+	#{id},
+	#{comments},
+	SYSDATE
+	)
+	</insert>
+
+	<select id="selectComment" parameterType="String" resultType="Comment">
+	
+	SELECT 
+		COMMENTSEQ,
+		BOARDSEQ,
+		ID,
+		COMMENTS,
+		INDATE
+	FROM
+		COMMENTS
+	WHERE
+		BOARDSEQ=#{boardSeq}
+	ORDER BY
+		INDATE DESC
+	
+	
+	</select>	
+	
+	
+	
+</mapper>
+
+
+
+
