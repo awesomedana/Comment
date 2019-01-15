@@ -1,0 +1,47 @@
+drop table memberinfo;
+
+create table memberinfo(
+    id varchar2(50) primary key,
+    pw varchar2(50) not null,
+    name varchar2(45),
+    phone varchar2(25),
+    email varchar2(50),
+    birthdate varchar2(50)
+);
+
+select * from memberinfo;
+
+
+drop table boardinfo;
+drop sequence boardseq;
+
+create table boardinfo(
+    boardseq number(7) primary key,
+    id varchar2(50),
+    boardtitle varchar2(100) not null,
+    boardcontent varchar2(3000) not null,
+    hitcount number(10),
+    indate date
+);
+
+create sequence boardseq NOCACHE;
+
+select * from boardinfo;
+
+select boardseq from boardinfo;
+
+drop table comments;
+drop sequence commentseq;
+
+--´Ü¼ø ´ñ±Û
+create table comments(  
+    commentseq number(7) primary key,
+    boardseq number(7),--FF
+    id varchar2(50),
+    contents varchar2(150),
+    indate date
+);
+
+create sequence commentseq NOCACHE;
+
+select * from comments;
